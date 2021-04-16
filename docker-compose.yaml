@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:11.3
+    container_name: postgres_container
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5432:5432"
+    environment:
+      - PGHOST=localhost
+      - PGDATABASE=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=postgres
