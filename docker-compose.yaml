@@ -7,9 +7,19 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "5432:5432"
+      - 127.0.0.1:5432:5432
     environment:
       - PGHOST=localhost
       - PGDATABASE=postgres
       - PGUSER=postgres
       - POSTGRES_PASSWORD=postgres
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.4
+    environment:
+      DB_VENDOR: h2
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+    ports:
+       - 127.0.0.1:8081:8080
+    depends_on:
+      - postgres

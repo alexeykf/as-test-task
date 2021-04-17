@@ -2,11 +2,18 @@ spring:
   datasource:
     username: postgres
     url: jdbc:postgresql://localhost:5432/postgres
-    password: ' postgres'
+    password: 'postgres'
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     properties:
       hibernate.format_sql: true
+
+keycloak:
+  auth-server-url: http://localhost:8081/auth
+  realm: app
+  resource: app
+  public-client: true
+
 server:
   error:
     include-message: always
