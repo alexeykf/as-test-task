@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
+import static alexeykf.testtask.Const.API_V1;
 import static alexeykf.testtask.TestUtils.asAdmin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,28 +37,28 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testGetProducts() throws Exception {
-        mockMvc.perform(asAdmin(get("/customers/b8fa0a16-bca9-4491-8b01-b7164250f539/products")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers/b8fa0a16-bca9-4491-8b01-b7164250f539/products")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(Is.is(2)));
     }
 
     @Test
     public void testGetProductsWithDeletedProduct() throws Exception {
-        mockMvc.perform(asAdmin(get("/customers/5fb25077-f1d1-4537-8da2-ad6e34db17af/products")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers/5fb25077-f1d1-4537-8da2-ad6e34db17af/products")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(Is.is(0)));
     }
 
     @Test
     public void testGetProductsOfDeletedUser() throws Exception {
-        mockMvc.perform(asAdmin(get("/customers/7ee1993c-c53f-47bc-8e6e-a4892d7039ee/products")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers/7ee1993c-c53f-47bc-8e6e-a4892d7039ee/products")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(Is.is(0)));
     }
 
     @Test
     public void testGetProduct() throws Exception {
-        mockMvc.perform(asAdmin(get("/products/63e9799f-2333-419c-87c6-55c91dcb9450")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/products/63e9799f-2333-419c-87c6-55c91dcb9450")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(Is.is("63e9799f-2333-419c-87c6-55c91dcb9450")))
                 .andExpect(jsonPath("$.title").value(Is.is("Second product")))
@@ -67,7 +68,7 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testDeleteProduct() throws Exception {
-        mockMvc.perform(asAdmin(delete("/products/6352e702-086b-43fa-8a58-c0be80dce114")))
+        mockMvc.perform(asAdmin(delete(API_V1 + "/products/6352e702-086b-43fa-8a58-c0be80dce114")))
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(asAdmin(delete("/products/6352e702-086b-43fa-8a58-c0be80dce114")))
@@ -77,13 +78,13 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testGetProductOfDeletedUser() throws Exception {
-        mockMvc.perform(asAdmin(get("/products/f808f5c6-5289-422e-8db2-44d45071ad6e")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/products/f808f5c6-5289-422e-8db2-44d45071ad6e")))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void testUpdateProductOfDeletedUser() throws Exception {
-        mockMvc.perform(asAdmin(put("/products/f808f5c6-5289-422e-8db2-44d45071ad6e"))
+        mockMvc.perform(asAdmin(put(API_V1 + "/products/f808f5c6-5289-422e-8db2-44d45071ad6e"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\":\"Updated product\", \"price\": \"123.33\", \"description\": \"Updated product\"}"))
                 .andExpect(status().isNotFound());
@@ -91,7 +92,7 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testUpdateDeletedProduct() throws Exception {
-        mockMvc.perform(asAdmin(put("/products/875fc52a-e1c3-4eb8-b816-faf45a8d96b8"))
+        mockMvc.perform(asAdmin(put(API_V1 + "/products/875fc52a-e1c3-4eb8-b816-faf45a8d96b8"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\":\"Updated product\", \"price\": \"123.33\", \"description\": \"Updated product\"}"))
                 .andExpect(status().isNotFound());
@@ -99,7 +100,7 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testUpdateProduct() throws Exception {
-        mockMvc.perform(asAdmin(put("/products/5fb25077-f1d1-4537-8da2-ad6e34db17af"))
+        mockMvc.perform(asAdmin(put(API_V1 + "/products/5fb25077-f1d1-4537-8da2-ad6e34db17af"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\":\"Updated product\", \"price\": \"123.33\", \"description\": \"Updated product\"}"))
                 .andExpect(status().isOk())
@@ -111,7 +112,7 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testGetDeletedProduct() throws Exception {
-        mockMvc.perform(asAdmin(get("/products/875fc52a-e1c3-4eb8-b816-faf45a8d96b8")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/products/875fc52a-e1c3-4eb8-b816-faf45a8d96b8")))
                 .andExpect(status().isNotFound());
     }
 }

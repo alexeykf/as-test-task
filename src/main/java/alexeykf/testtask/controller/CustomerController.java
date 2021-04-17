@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.UUID;
 
+import static alexeykf.testtask.Const.API_V1;
+
 @Validated
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/customers")
+@RequestMapping(API_V1 + "/customers")
 public class CustomerController {
 
     private final CustomerService customerService;

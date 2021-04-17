@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
+import static alexeykf.testtask.Const.API_V1;
 import static alexeykf.testtask.TestUtils.asAdmin;
 import static alexeykf.testtask.TestUtils.asViewer;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -44,7 +45,7 @@ public class CustomerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testGetCustomer() throws Exception {
-        mockMvc.perform(asAdmin(get("/customers/aa29c1b8-5b67-4dc1-ae4c-14c19bd460eb")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers/aa29c1b8-5b67-4dc1-ae4c-14c19bd460eb")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(Is.is("aa29c1b8-5b67-4dc1-ae4c-14c19bd460eb")))
                 .andExpect(jsonPath("$.title").value(Is.is("Kevin Cabrera")))
@@ -54,14 +55,14 @@ public class CustomerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testGetCustomers() throws Exception {
-        mockMvc.perform(asAdmin(get("/customers")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(IsNot.not(Matchers.empty())));
     }
 
     @Test
     public void testCreateCustomer() throws Exception {
-        MvcResult result = mockMvc.perform(asAdmin(post("/customers")
+        MvcResult result = mockMvc.perform(asAdmin(post(API_V1 + "/customers")
                 .content("{\"title\": \"New User\"}").contentType(MediaType.APPLICATION_JSON)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(IsNot.not(Matchers.empty())))
@@ -72,21 +73,20 @@ public class CustomerIntegrationTest extends AbstractIntegrationTest {
         JsonNode tree = objectMapper.readTree(result.getResponse().getContentAsString());
         String id = tree.get("id").asText();
 
-        mockMvc.perform(asAdmin(get("/customers/" + id)))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers/" + id)))
                 .andExpect(status().isOk());
-
     }
 
     @Test
     public void testCreateCustomerByViewer() throws Exception {
-        mockMvc.perform(asViewer(post("/customers")
+        mockMvc.perform(asViewer(post(API_V1 + "/customers")
                 .content("{\"title\": \"New User\"}").contentType(MediaType.APPLICATION_JSON)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     public void testCreateCustomerProduct() throws Exception {
-        mockMvc.perform(asAdmin(post("/customers/f0a4ab9e-3023-4b29-bd74-c6f67001786d/products")
+        mockMvc.perform(asAdmin(post(API_V1 + "/customers/f0a4ab9e-3023-4b29-bd74-c6f67001786d/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\":\"New product\", \"description\": \"Yet another product\", \"price\":\"10.20\"}")))
                 .andExpect(status().isCreated());
@@ -95,7 +95,7 @@ public class CustomerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testUpdateCustomerByViewer() throws Exception {
         mockMvc.perform(asViewer(
-                put("/customers/2abb3af2-4b8b-4016-a2ce-dcba3c98fb88")
+                put(API_V1 + "/customers/2abb3af2-4b8b-4016-a2ce-dcba3c98fb88")
                         .content("{\"title\": \"Updated customer\"}").contentType(MediaType.APPLICATION_JSON)))
                 .andExpect(status().isForbidden());
     }
@@ -103,7 +103,7 @@ public class CustomerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testUpdateCustomer() throws Exception {
         mockMvc.perform(asAdmin(
-                put("/customers/2abb3af2-4b8b-4016-a2ce-dcba3c98fb88")
+                put(API_V1 + "/customers/2abb3af2-4b8b-4016-a2ce-dcba3c98fb88")
                         .content("{\"title\": \"Updated customer\"}").contentType(MediaType.APPLICATION_JSON)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(Is.is("2abb3af2-4b8b-4016-a2ce-dcba3c98fb88")))
@@ -114,16 +114,16 @@ public class CustomerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testGetDeletedCustomer() throws Exception {
-        mockMvc.perform(asAdmin(get("/customers/2f23e279-96f3-4df9-9d70-58182e675d51")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers/2f23e279-96f3-4df9-9d70-58182e675d51")))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void testDeleteCustomer() throws Exception {
-        mockMvc.perform(asAdmin(delete("/customers/01b51fde-4e6b-49df-b011-f49bc59eac23")))
+        mockMvc.perform(asAdmin(delete(API_V1 + "/customers/01b51fde-4e6b-49df-b011-f49bc59eac23")))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(asAdmin(get("/customers/01b51fde-4e6b-49df-b011-f49bc59eac23")))
+        mockMvc.perform(asAdmin(get(API_V1 + "/customers/01b51fde-4e6b-49df-b011-f49bc59eac23")))
                 .andExpect(status().isNotFound());
     }
 }

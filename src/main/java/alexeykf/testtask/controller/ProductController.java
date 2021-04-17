@@ -12,11 +12,13 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.UUID;
 
+import static alexeykf.testtask.Const.API_V1;
+
 @Validated
 @Transactional
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping(API_V1 + "/products")
 public class ProductController {
 
     private final ProductService productService;
