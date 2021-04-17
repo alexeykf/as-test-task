@@ -1,6 +1,5 @@
 package alexeykf.testtask.service;
 
-import alexeykf.testtask.exception.CustomerNotFoundException;
 import alexeykf.testtask.model.CustomerCreateUpdateRequest;
 import alexeykf.testtask.model.CustomerDto;
 import alexeykf.testtask.model.mapper.CustomerMapper;
@@ -31,20 +30,18 @@ public class CustomerService {
     }
 
     public CustomerDto getCustomer(UUID customerId) {
-        CustomerEntity customer = customerRepository.findById(customerId)
-                .orElseThrow(CustomerNotFoundException::new);
+        CustomerEntity customer = customerRepository.getById(customerId);
         return customerMapper.toDto(customer);
     }
 
     public void delete(UUID customerId) {
-        CustomerEntity customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
+        CustomerEntity customer = customerRepository.getById(customerId);
         customer.setDeletedAt(LocalDateTime.now());
         customerRepository.save(customer);
     }
 
     public CustomerDto update(UUID customerId, CustomerCreateUpdateRequest request) {
-        CustomerEntity customer = customerRepository.findById(customerId)
-                .orElseThrow(CustomerNotFoundException::new);
+        CustomerEntity customer = customerRepository.getById(customerId);
         customer.setTitle(request.getTitle());
         return customerMapper.toDto(customerRepository.save(customer));
     }

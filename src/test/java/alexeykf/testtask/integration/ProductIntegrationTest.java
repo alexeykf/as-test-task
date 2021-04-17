@@ -1,8 +1,6 @@
 package alexeykf.testtask.integration;
 
 import alexeykf.testtask.AbstractIntegrationTest;
-import alexeykf.testtask.repository.ProductRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -28,10 +26,6 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private ProductRepository productRepository;
 
     @BeforeAll
     public void setup(@Autowired DataSource ds) throws SQLException {

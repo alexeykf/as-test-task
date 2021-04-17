@@ -17,6 +17,8 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
+import static alexeykf.testtask.Roles.*;
+
 @Configuration
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 public class KeycloakConfig extends KeycloakWebSecurityConfigurerAdapter {
@@ -47,10 +49,10 @@ public class KeycloakConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "**").hasAnyRole("ADMIN", "EDITOR", "VIEWER")
-                .antMatchers(HttpMethod.POST, "**").hasAnyRole("ADMIN", "EDITOR")
-                .antMatchers(HttpMethod.PUT, "**").hasAnyRole("ADMIN", "EDITOR")
-                .antMatchers(HttpMethod.DELETE, "**").hasAnyRole("ADMIN", "EDITOR")
+                .antMatchers(HttpMethod.GET, "**").hasAnyRole(ADMIN, EDITOR, VIEWER)
+                .antMatchers(HttpMethod.POST, "**").hasAnyRole(ADMIN, EDITOR)
+                .antMatchers(HttpMethod.PUT, "**").hasAnyRole(ADMIN, EDITOR)
+                .antMatchers(HttpMethod.DELETE, "**").hasAnyRole(ADMIN, EDITOR)
                 .anyRequest().authenticated()
                 .and().csrf().disable();
     }
