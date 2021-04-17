@@ -8,7 +8,7 @@ import alexeykf.testtask.repository.CustomerRepository;
 import alexeykf.testtask.repository.entity.CustomerEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -49,7 +49,7 @@ public class CustomerService {
         return customerMapper.toDto(customerRepository.save(customer));
     }
 
-    public Page<CustomerDto> getCustomers() {
-        return customerRepository.findAll(PageRequest.of(0, 100)).map(customerMapper::toDto);
+    public Page<CustomerDto> getCustomers(Pageable pageable) {
+        return customerRepository.findAll(pageable).map(customerMapper::toDto);
     }
 }

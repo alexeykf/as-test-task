@@ -11,7 +11,7 @@ import alexeykf.testtask.repository.entity.CustomerEntity;
 import alexeykf.testtask.repository.entity.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -52,7 +52,7 @@ public class ProductService {
         return productMapper.map(productRepository.save(product));
     }
 
-    public Page<ProductDto> getProducts(UUID customerId) {
-        return productRepository.findByCustomerId(PageRequest.of(0, 100), customerId).map(productMapper::map);
+    public Page<ProductDto> getProducts(UUID customerId, Pageable pageable) {
+        return productRepository.findByCustomerId(pageable, customerId).map(productMapper::map);
     }
 }

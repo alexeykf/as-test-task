@@ -7,7 +7,9 @@ import alexeykf.testtask.model.ProductDto;
 import alexeykf.testtask.service.CustomerService;
 import alexeykf.testtask.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @Validated
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/customers")
@@ -32,8 +35,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/products")
-    public Page<ProductDto> getCustomerProducts(@PathVariable UUID customerId) {
-        return productService.getProducts(customerId);
+    public Page<ProductDto> getCustomerProducts(@PathVariable UUID customerId, Pageable pageable) {
+        return productService.getProducts(customerId, pageable);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,8 +46,8 @@ public class CustomerController {
     }
 
     @GetMapping
-    public Page<CustomerDto> getCustomers() {
-        return customerService.getCustomers();
+    public Page<CustomerDto> getCustomers(Pageable pageable) {
+        return customerService.getCustomers(pageable);
     }
 
     @PutMapping("/{customerId}")
