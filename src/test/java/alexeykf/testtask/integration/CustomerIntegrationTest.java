@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static alexeykf.testtask.TestUtils.asAdmin;
+import static alexeykf.testtask.TestUtils.asViewer;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -77,11 +78,26 @@ public class CustomerIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testCreateCustomerByViewer() throws Exception {
+        mockMvc.perform(asViewer(post("/customers")
+                .content("{\"title\": \"New User\"}").contentType(MediaType.APPLICATION_JSON)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void testCreateCustomerProduct() throws Exception {
         mockMvc.perform(asAdmin(post("/customers/f0a4ab9e-3023-4b29-bd74-c6f67001786d/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\":\"New product\", \"description\": \"Yet another product\", \"price\":\"10.20\"}")))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void testUpdateCustomerByViewer() throws Exception {
+        mockMvc.perform(asViewer(
+                put("/customers/2abb3af2-4b8b-4016-a2ce-dcba3c98fb88")
+                        .content("{\"title\": \"Updated customer\"}").contentType(MediaType.APPLICATION_JSON)))
+                .andExpect(status().isForbidden());
     }
 
     @Test

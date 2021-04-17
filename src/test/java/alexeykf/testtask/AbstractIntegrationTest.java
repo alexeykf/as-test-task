@@ -14,8 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {
-                TestTaskApplication.class,
-                SecurityConfig.class
+                TestTaskApplication.class
         },
         properties = {
                 "spring.datasource.url=jdbc:tc:postgresql:11-alpine:///postgres",

@@ -11,4 +11,8 @@ public class TestUtils {
     public static MockHttpServletRequestBuilder asAdmin(MockHttpServletRequestBuilder builder) {
         return builder.with(user("admin").roles("ADMIN"));
     }
+
+    public static MockHttpServletRequestBuilder asViewer(MockHttpServletRequestBuilder builder) {
+        return builder.with(user("support").roles("VIEWER"));
+    }
 }
