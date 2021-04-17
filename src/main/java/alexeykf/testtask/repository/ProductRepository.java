@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public interface ProductRepository extends PagingAndSortingRepository<ProductEntity, UUID> {
 
+    @Query("SELECT p FROM ProductEntity p JOIN p.customer c WHERE c.id = :customerId AND c.deletedAt IS NULL")
     Page<ProductEntity> findByCustomerId(Pageable pageable, UUID customerId);
 
     @Query("SELECT p FROM ProductEntity p JOIN FETCH p.customer c WHERE p.id = :productId AND c.deletedAt IS NULL")

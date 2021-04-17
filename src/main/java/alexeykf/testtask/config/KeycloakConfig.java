@@ -47,10 +47,11 @@ public class KeycloakConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET).hasAnyRole("ADMIN", "EDITOR", "VIEWER")
-                .antMatchers(HttpMethod.POST).hasAnyRole("ADMIN", "EDITOR")
-                .antMatchers(HttpMethod.PUT).hasAnyRole("ADMIN", "EDITOR")
-                .antMatchers(HttpMethod.DELETE).hasAnyRole("ADMIN", "EDITOR")
+                .antMatchers(HttpMethod.GET, "**").hasAnyRole("ADMIN", "EDITOR", "VIEWER")
+                .antMatchers(HttpMethod.POST, "**").hasAnyRole("ADMIN", "EDITOR")
+                .antMatchers(HttpMethod.PUT, "**").hasAnyRole("ADMIN", "EDITOR")
+                .antMatchers(HttpMethod.DELETE, "**").hasAnyRole("ADMIN", "EDITOR")
+                .anyRequest().authenticated()
                 .and().csrf().disable();
     }
 }

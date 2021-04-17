@@ -55,6 +55,13 @@ public class ProductIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testGetProductsOfDeletedUser() throws Exception {
+        mockMvc.perform(asAdmin(get("/customers/7ee1993c-c53f-47bc-8e6e-a4892d7039ee/products")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.size()").value(Is.is(0)));
+    }
+
+    @Test
     public void testGetProduct() throws Exception {
         mockMvc.perform(asAdmin(get("/products/63e9799f-2333-419c-87c6-55c91dcb9450")))
                 .andExpect(status().isOk())

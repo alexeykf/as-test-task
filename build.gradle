@@ -69,3 +69,7 @@ jacocoTestReport {
         }))
     }
 }
+
+bootJar {
+    archiveFileName="app.jar"
+}

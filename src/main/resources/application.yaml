@@ -13,6 +13,7 @@ keycloak:
   realm: app
   resource: app
   public-client: true
+  bearer-only: true
 
 server:
   error:
