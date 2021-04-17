@@ -21,7 +21,7 @@ public class ProductCreateUpdateRequest {
     String description;
 
     @NotNull
-    @DecimalMin("0.0")
+    @DecimalMin(value = "0.0")
     @Digits(integer = 10, fraction = 2)
     BigDecimal price;
 

@@ -5,3 +5,9 @@ spring:
     password: ' postgres'
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    properties:
+      hibernate.format_sql: true
+server:
+  error:
+    include-message: always
+    include-stacktrace: never

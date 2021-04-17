@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Validated
@@ -26,7 +27,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{customerId}/products")
     public ProductDto createCustomerProduct(@PathVariable UUID customerId,
-                                            @RequestBody ProductCreateUpdateRequest request) {
+                                            @RequestBody @Valid ProductCreateUpdateRequest request) {
         return productService.createProduct(customerId, request);
     }
 
@@ -37,7 +38,7 @@ public class CustomerController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CustomerDto createCustomer(@RequestBody CustomerCreateUpdateRequest request) {
+    public CustomerDto createCustomer(@RequestBody @Valid CustomerCreateUpdateRequest request) {
         return customerService.create(request);
     }
 
@@ -48,7 +49,7 @@ public class CustomerController {
 
     @PutMapping("/{customerId}")
     public CustomerDto updateCustomer(@PathVariable UUID customerId,
-                                      @RequestBody CustomerCreateUpdateRequest request) {
+                                      @RequestBody @Valid CustomerCreateUpdateRequest request) {
         return customerService.update(customerId, request);
     }
 

@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 
 @Value
+@Valid
 @JsonDeserialize(builder = CustomerCreateUpdateRequest.Builder.class)
 @Builder(builderClassName = "Builder", toBuilder = true)
 public class CustomerCreateUpdateRequest {

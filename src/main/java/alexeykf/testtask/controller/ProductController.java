@@ -5,12 +5,16 @@ import alexeykf.testtask.model.ProductDto;
 import alexeykf.testtask.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.UUID;
 
+@Validated
 @Transactional
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductController {
@@ -23,7 +27,7 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public ProductDto updateProduct(@PathVariable UUID productId, @RequestBody ProductCreateUpdateRequest request) {
+    public ProductDto updateProduct(@PathVariable UUID productId, @RequestBody @Valid ProductCreateUpdateRequest request) {
         return productService.updateProduct(productId, request);
     }
 

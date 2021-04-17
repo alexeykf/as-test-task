@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS products
     id                UUID PRIMARY KEY,
     customer_id       UUID NOT NULL,
     title             VARCHAR(255) NOT NULL,
-    description       VARCHAR(1024) NOT NULL,
+    description       VARCHAR(1024),
     price             DECIMAL(10, 2),
     deleted_at        TIMESTAMP,
     created_at        TIMESTAMP NOT NULL,

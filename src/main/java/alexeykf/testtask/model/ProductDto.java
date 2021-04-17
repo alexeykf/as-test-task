@@ -1,5 +1,6 @@
 package alexeykf.testtask.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Value;
 
@@ -14,6 +15,7 @@ public class ProductDto {
     UUID id;
     String title;
     String description;
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     BigDecimal price;
     LocalDateTime createdAt;
     LocalDateTime modifiedAt;

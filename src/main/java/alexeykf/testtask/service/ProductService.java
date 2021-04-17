@@ -11,6 +11,7 @@ import alexeykf.testtask.repository.entity.CustomerEntity;
 import alexeykf.testtask.repository.entity.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -45,13 +46,13 @@ public class ProductService {
 
     public ProductDto updateProduct(UUID productId, ProductCreateUpdateRequest request) {
         ProductEntity product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
-        product.setTitle(product.getTitle());
-        product.setDescription(product.getDescription());
+        product.setTitle(request.getTitle());
+        product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());
         return productMapper.map(productRepository.save(product));
     }
 
     public Page<ProductDto> getProducts(UUID customerId) {
-        return productRepository.findByCustomerId(customerId).map(productMapper::map);
+        return productRepository.findByCustomerId(PageRequest.of(0, 100), customerId).map(productMapper::map);
     }
 }

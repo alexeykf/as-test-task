@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -24,7 +25,9 @@ public class CustomerService {
 
     public CustomerDto create(CustomerCreateUpdateRequest request) {
         CustomerEntity customer = customerMapper.toEntity(request);
-        return customerMapper.toDto(customerRepository.save(customer));
+        customer.setCreatedAt(LocalDateTime.now());
+        CustomerEntity saved = customerRepository.save(customer);
+        return customerMapper.toDto(saved);
     }
 
     public CustomerDto getCustomer(UUID customerId) {
@@ -35,6 +38,7 @@ public class CustomerService {
 
     public void delete(UUID customerId) {
         CustomerEntity customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
+        customer.setDeletedAt(LocalDateTime.now());
         customerRepository.save(customer);
     }
 

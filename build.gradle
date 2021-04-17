@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'alexeykf'
@@ -12,6 +13,10 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+}
+
+ext {
+    set('testcontainersVersion', "1.15.2")
 }
 
 repositories {
@@ -25,15 +30,40 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.flywaydb:flyway-core'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     compileOnly 'org.projectlombok:lombok:1.18.10'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    testImplementation 'org.projectlombok:lombok:1.18.10'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
 }
 
 test {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination layout.buildDirectory.dir('jacocoHtml').get().asFile
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['alexeykf/testtask/model/*'])
+        }))
+    }
 }
