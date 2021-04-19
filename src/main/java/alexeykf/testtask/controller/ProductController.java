@@ -8,14 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.UUID;
 
 import static alexeykf.testtask.Const.API_V1;
 
 @Validated
-@Transactional
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(API_V1 + "/products")
