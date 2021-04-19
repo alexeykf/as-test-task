@@ -1,0 +1,47 @@
+POST http://localhost:8080/api/v1/customers
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "title": "Test user"
+}
+
+###
+
+GET http://localhost:8080/api/v1/customers?size=10&page=0
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+###
+
+POST http://localhost:8080/api/v1/customers/71abb5f2-31f5-4a60-8e95-7f1356c3d108/products
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "title": "Test product",
+  "price": "120.20",
+  "description": "Example of product"
+}
+
+###
+
+GET http://localhost:8080/api/v1/customers/71abb5f2-31f5-4a60-8e95-7f1356c3d108/products?page=0&size=10
+Accept: application/json
+Authorization: Bearer <TOKEN>
+
+###
+
+PUT http://localhost:8080/api/v1/products/bc0adb52-cf0d-4294-8f7b-8b853a01488d
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "title": "Another product title",
+  "price": "120.20",
+  "description": "Another description"
+}
